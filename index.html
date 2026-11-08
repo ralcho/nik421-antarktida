@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>НИК 421 – Пътят към Антарктида</title>
+
+  <link rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #071b30;
+      color: white;
+    }
+
+    header {
+      padding: 55px 20px;
+      text-align: center;
+      background: linear-gradient(135deg, #06345b, #087eaa);
+    }
+
+    header h1 {
+      font-size: 36px;
+      margin: 0 0 12px;
+    }
+
+    header p {
+      color: #d4f1ff;
+      font-size: 17px;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 24px 16px;
+    }
+
+    section {
+      background: #102d48;
+      padding: 22px;
+      border-radius: 14px;
+      margin-bottom: 22px;
+    }
+
+    h2 { color: #7bd8ff; }
+
+    #map {
+      height: 440px;
+      width: 100%;
+      border-radius: 12px;
+      z-index: 1;
+    }
+
+    .notice {
+      background: #173c59;
+      padding: 14px;
+      border-left: 4px solid #54c9ff;
+      border-radius: 6px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #b9d8ed;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>НИК 421</h1>
+  <h2>ПЪТЯТ КЪМ АНТАРКТИДА</h2>
+  <p>Българското научноизследователско плаване към ледения континент</p>
+</header>
+
+<main>
+
+  <section>
+    <h2>За експедицията</h2>
+    <p>
+      Научноизследователският кораб „Св. св. Кирил и Методий“
+      с бордови номер НИК 421 е част от българските
+      антарктически научни експедиции.
+    </p>
+  </section>
+
+  <section>
+    <h2>Интерактивна карта на света</h2>
+    <p>
+      Разгледай географския маршрут от Варна до
+      българската антарктическа база на остров Ливингстън.
+    </p>
+
+    <div id="map"></div>
+
+    <p class="notice">
+      Синята линия показва схематичен планиран маршрут,
+      а не потвърдено GPS проследяване на кораба.
+    </p>
+  </section>
+
+  <section>
+    <h2>Реално местоположение – AIS</h2>
+    <p id="ais">
+      Няма свързан потвърден източник на актуални AIS данни.
+      Реалното местоположение няма да бъде измисляно.
+    </p>
+  </section>
+
+  <section>
+    <h2>Крайната цел – остров Ливингстън</h2>
+    <p>
+      Българската антарктическа база „Св. Климент Охридски“
+      се намира на остров Ливингстън, Южни Шетландски острови,
+      край Антарктическия полуостров.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  Училищен географски проект | НИК 421
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+  const map = L.map('map').setView([-15, -25], 2);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors',
+    maxZoom: 18
+  }).addTo(map);
+
+  const varna = [43.2141, 27.9147];
+  const livingston = [-62.6, -60.5];
+
+  L.marker(varna).addTo(map)
+    .bindPopup('<b>Варна, България</b><br>Начална точка');
+
+  L.marker(livingston).addTo(map)
+    .bindPopup('<b>Остров Ливингстън</b><br>Българска антарктическа база');
+
+  const route = [
+    varna,
+    [36, 15],
+    [36, -6],
+    [15, -25],
+    [-35, -55],
+    livingston
+  ];
+
+  L.polyline(route, {
+    color: '#42caff',
+    weight: 4,
+    dashArray: '10, 8'
+  }).addTo(map);
+
+</script>
+
+</body>
+</html>
