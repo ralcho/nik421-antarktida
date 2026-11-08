@@ -129,6 +129,7 @@
 </footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-polylinedecorator@1.6.0/dist/leaflet.polylineDecorator.js"></script>
 
 <script>
   const map = L.map('map').setView([-15, -25], 2);
@@ -156,11 +157,26 @@
     livingston
   ];
 
-  L.polyline(route, {
-    color: '#42caff',
-    weight: 4,
-    dashArray: '10, 8'
-  }).addTo(map);
+  const routeLine = L.polyline(route, {
+  color: '#42caff',
+  weight: 4,
+  dashArray: '10, 8'
+}).addTo(map);
+
+L.polylineDecorator(routeLine, {
+  patterns: [{
+    offset: '5%',
+    repeat: '12%',
+    symbol: L.Symbol.arrowHead({
+      pixelSize: 10,
+      polygon: false,
+      pathOptions: {
+        color: '#42caff',
+        weight: 2
+      }
+    })
+  }]
+}).addTo(map);
 
 </script>
 
