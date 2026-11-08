@@ -1,3 +1,5 @@
+
+  
 <!DOCTYPE html>
 <html lang="bg">
 <head>
@@ -5,8 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>НИК 421 – Пътят към Антарктида</title>
 
-  <link rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
   <style>
     * { box-sizing: border-box; }
@@ -24,21 +25,10 @@
       background: linear-gradient(135deg, #06345b, #087eaa);
     }
 
-    header h1 {
-      font-size: 36px;
-      margin: 0 0 12px;
-    }
+    header h1 { font-size: 36px; margin: 0 0 12px; }
+    header p { color: #d4f1ff; font-size: 17px; }
 
-    header p {
-      color: #d4f1ff;
-      font-size: 17px;
-    }
-
-    main {
-      max-width: 1000px;
-      margin: auto;
-      padding: 24px 16px;
-    }
+    main { max-width: 1000px; margin: auto; padding: 24px 16px; }
 
     section {
       background: #102d48;
@@ -80,7 +70,6 @@
 </header>
 
 <main>
-
   <section>
     <h2>За експедицията</h2>
     <p>
@@ -100,7 +89,7 @@
     <div id="map"></div>
 
     <p class="notice">
-      Синята линия показва схематичен планиран маршрут,
+      Линията показва ориентировъчен маршрут по море,
       а не потвърдено GPS проследяване на кораба.
     </p>
   </section>
@@ -121,7 +110,6 @@
       край Антарктическия полуостров.
     </p>
   </section>
-
 </main>
 
 <footer>
@@ -148,80 +136,47 @@
   L.marker(livingston).addTo(map)
     .bindPopup('<b>Остров Ливингстън</b><br>Българска антарктическа база');
 
+  // Ориентировъчни морски междинни точки.
+  // Това не е проверен GPS запис или изчислен морски маршрут.
   const route = [
-  varna,
-
-  // Черно море към Босфора
-  [43.0, 28.5],
-  [42.5, 29.0],
-  [42.0, 29.1],
-  [41.7, 29.1],
-  [41.4, 29.1],
-  [41.2324, 29.1353],
-
-  // Босфор и Мраморно море
-  [41.15, 29.08],
-[41.10, 29.06],
-[41.05, 29.03],
-[41.00, 29.00],
-[40.96, 28.98],
-[40.90, 28.75],
-[40.85, 28.50],
-[40.80, 28.25],
-[40.75, 28.00],
-[40.70, 27.75],
-[40.65, 27.50],
-[40.60, 27.25],
-[40.55, 27.00],
-[40.50, 26.85],
-
-  // Дарданели
-  [40.4277, 26.7594],
-  [40.25, 26.5],
-  [40.022, 26.171],
-
-  // Егейско море
-  [39.5, 25.5],
-  [38.5, 24.0],
-  [37.0, 21.0],
-  [36.0, 18.0],
-
-  // Средиземно море и Атлантически океан
-  [35.5, 8.0],
-  [36.0, 0.0],
-  [36.0, -6.0],
-  [30.0, -12.0],
-  [20.0, -20.0],
-  [5.0, -25.0],
-  [-10.0, -30.0],
-  [-25.0, -40.0],
-  [-40.0, -55.0],
-  [-55.0, -65.0],
-
-  livingston
-];
+    varna,
+    [41.2, 29.1],
+    [40.0, 26.2],
+    [38.0, 20.0],
+    [36.0, 10.0],
+    [36.0, 0.0],
+    [36.0, -6.0],
+    [30.0, -15.0],
+    [10.0, -25.0],
+    [-10.0, -35.0],
+    [-30.0, -48.0],
+    [-40.0, -55.0],
+    [-52.0, -65.0],
+    livingston
+  ];
 
   const routeLine = L.polyline(route, {
-  color: '#42caff',
-  weight: 4,
-  dashArray: '10, 8'
-}).addTo(map);
+    color: '#42caff',
+    weight: 4,
+    dashArray: '10, 8'
+  }).addTo(map);
 
-L.polylineDecorator(routeLine, {
-  patterns: [{
-    offset: '5%',
-    repeat: '12%',
-    symbol: L.Symbol.arrowHead({
-      pixelSize: 10,
-      polygon: false,
-      pathOptions: {
-        color: '#42caff',
-        weight: 2
-      }
-    })
-  }]
-}).addTo(map);
+  L.polylineDecorator(routeLine, {
+    patterns: [{
+      offset: '5%',
+      repeat: '12%',
+      symbol: L.Symbol.arrowHead({
+        pixelSize: 10,
+        polygon: false,
+        pathOptions: {
+          color: '#42caff',
+          weight: 2
+        }
+      })
+    }]
+  }).addTo(map);
 
+  map.fitBounds(routeLine.getBounds(), { padding: [25, 25] });
 </script>
 
 </body>
