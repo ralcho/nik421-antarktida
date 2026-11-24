@@ -249,25 +249,76 @@
 </section>
 
 <script>
-function addShipLog() {
-  const place = document.getElementById('log-place').value;
+async function addShipLog() {
+  const place = document.getElementById('log-place').value.trim();
   const date = document.getElementById('log-date').value;
-  const note = document.getElementById('log-note').value;
+  const note = document.getElementById('log-note').value.trim();
 
   if (!place || !date) {
     alert('Попълни местоположението и датата!');
     return;
   }
 
-  const entry = document.createElement('p');
-  entry.textContent = place + ' — ' + date + ' — ' + note;
-  document.getElementById('log-list').appendChild(entry);
+  const { error } = await supabaseClient
+    .from('ship_log')
+    .insert([{
+      place: place,
+      event_time: new Date(date).toISOString(),
+      note: note
+    }]);
+
+  if (error) {
+    alert('Грешка при записването: ' + error.message);
+    return;
+  }
+
+  alert('Записът е добавен успешно!');
 
   document.getElementById('log-place').value = '';
   document.getElementById('log-date').value = '';
   document.getElementById('log-note').value = '';
+
+  await loadShipLogs();
+}
+
+async function loadShipLogs() {
+  const { data, error } = await supabaseClient
+    .from('ship_log')
+    .select('place, event_time, note')
+    .order('event_time', { ascending: false });
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const list = document.getElementById('log-list');
+  list.replaceChildren();
+
+  data.forEach(item => {
+    const entry = document.createElement('p');
+    entry.textContent =
+      item.place + ' — ' +
+      new Date(item.event_time).toLocaleString('bg-BG') +
+      ' — ' + (item.note || '');
+
+    list.appendChild(entry);
+  });
 }
 </script>
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = 'https://yxnrverzpbvkgimqhoel.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_vqNFLTr1tQvGRLpueGoxRg_NuZZhXN9';
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+loadShipLogs();
+ </script>
 </body>
 </html>
  
