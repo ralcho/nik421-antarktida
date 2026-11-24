@@ -222,6 +222,43 @@
   <p>Научните екипи работят по проекти, свързани с климата, природата и геологията на Антарктида.</p>
   <p>Българският научноизследователски кораб „Св. св. Кирил и Методий“ осигурява транспортна и логистична подкрепа.</p>
 </section>
+<section id="ship-log" style="max-width:1000px;margin:40px auto;padding:25px;background:#10243b;border-radius:18px;color:white;">
+  <h2>Дневник на плаването – НИК 421</h2>
+  <p>Тук ще се записват местоположенията на кораба по време на експедицията.</p>
+
+  <label>Местоположение:</label>
+  <input id="log-place" type="text" placeholder="Например: Атлантически океан">
+
+  <label>Дата и час:</label>
+  <input id="log-date" type="datetime-local">
+
+  <label>Коментар:</label>
+  <input id="log-note" type="text" placeholder="Информация за преминаването">
+
+  <button onclick="addShipLog()">Добави запис</button>
+  <div id="log-list"></div>
+</section>
+
+<script>
+function addShipLog() {
+  const place = document.getElementById('log-place').value;
+  const date = document.getElementById('log-date').value;
+  const note = document.getElementById('log-note').value;
+
+  if (!place || !date) {
+    alert('Попълни местоположението и датата!');
+    return;
+  }
+
+  const entry = document.createElement('p');
+  entry.textContent = place + ' — ' + date + ' — ' + note;
+  document.getElementById('log-list').appendChild(entry);
+
+  document.getElementById('log-place').value = '';
+  document.getElementById('log-date').value = '';
+  document.getElementById('log-note').value = '';
+}
+</script>
 </body>
 </html>
  
